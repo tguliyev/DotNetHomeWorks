@@ -67,7 +67,14 @@ namespace Client
 
         private void ConnectToServer()
         {
-            this.client.Connect(this.serverIPEndpoint);
+            try
+            {
+                this.client.Connect(this.serverIPEndpoint);
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Server Not Responding");
+            }
         }
 
         private async void HandleServerResponces()
