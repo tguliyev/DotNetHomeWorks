@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.Json;
 using Shared.Tools;
+using System.Threading;
 
 namespace Client
 {
@@ -27,7 +28,6 @@ namespace Client
     {
         private const string IP_STRING = "127.0.0.1";
         private const int PORT = 8080;
-        
         private byte[] buffer;
 
         private Socket client;
@@ -38,8 +38,8 @@ namespace Client
             InitializeComponent();
 
             buffer = new byte[65000];
-            this.client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+            this.client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
             IPAddress? ip = null;
             if (!IPAddress.TryParse(IP_STRING, out ip))
