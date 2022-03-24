@@ -1,11 +1,10 @@
-using System;
 using System.Net;
 using Microsoft.Extensions.Hosting;
 using HttpServerImpl.Server.Abstractions;
 
 namespace HttpServerImpl.Server.Core
 {
-    internal class Server : IServer, IHostedService
+    internal class Server : IServer
     {
         private readonly HttpListener listener;
 
@@ -18,12 +17,23 @@ namespace HttpServerImpl.Server.Core
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            // while(true)
+            // {
+            //     System.Console.WriteLine("Hello My Incredible Future!!!");
+            //     Thread.Sleep(2000);
+            // }
+            return Task.Run(() =>
+            {
+                Console.WriteLine("Hello My Incredible Future!!!");
+            });
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                Console.WriteLine("App Gracefully Stopped!!!");
+            });
         }
     }
 }

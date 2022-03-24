@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using HttpServerImpl.Server.Abstractions;
 
-namespace HttpServerImpl.Server.Core.Exstensions
+namespace HttpServerImpl.Server.Core
 {
     public static class ServerBuilderExtension
     {

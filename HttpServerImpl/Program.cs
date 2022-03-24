@@ -12,6 +12,8 @@ using System.ComponentModel;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Diagnostics;
+using HttpServerImpl.Server.Abstractions;
+using HttpServerImpl.Server.Core;
 
 namespace HttpServerImpl
 {
@@ -19,19 +21,20 @@ namespace HttpServerImpl
     {
         static void Main(string[] args)
         {
-            // IHostBuilder hostBuilder = new HostBuilder().ConfigureDefaults(args);
-            // IHost host = hostBuilder.Build();
-            // var hostedServices = host.Services.GetService<IEnumerable<IHostedService>>();
-            // foreach (var hostedService in hostedServices)
-            // {
-            //     Console.WriteLine(hostedService.GetType());
-            // }
-
-            HttpListener server = new HttpListener();
-            server.Prefixes.Add(@"http://127.0.0.1:80/");
-            server.Prefixes.Add(@"http://127.1.1.255:80/");
-            server.Start();
-            System.Console.WriteLine("Hello My Incredible Future!!!");
+            IHostBuilder hostBuilder = new HostBuilder().ConfigureDefaults(args);
+            hostBuilder.ConfigureServices((builderContext, servicesCollection) =>
+            {
+                IServer serverInstance = new ServerBuilder()
+                                        .ConfigureDefaults()
+                                        .Build();
+                List<IHostedService> hostedServices = new List<IHostedService>();
+                hostedServices.Add(serverInstance);
+                // servicesCollection.AddSingleton<IServer>(serverInstance);
+                servicesCollection.AddSingleton<IEnumerable<IHostedService>>(hostedServices);
+            });
+            IHost host = hostBuilder.Build();
+            host.Run();
+            //Console.ReadKey();
         }
     }
 }
